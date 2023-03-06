@@ -1,4 +1,6 @@
 
+import '../../../eventos/domain/entities/lugar.dart';
+import '../../../parches/domain/entities/mesa_votacion.dart';
 import 'creador.dart';
 import 'usuario.dart';
 
@@ -9,8 +11,8 @@ class Parche extends Creador {
   Map<int, Usuario> moderadores;
   Map<int, Usuario> miembros;
   //Map<int, Propuesta > propuestas = {};
-  //Map<int, MesaVotacion> votacionesActivas = {};
-  //Map<int, Lugar> lugaresPriv = {};
+  Map<int, MesaVotacion> votacionesActivas = {};
+  Map<int, Lugar> lugaresPriv = {};
   int isPublico;
 
   // CONSTRUCTORES 
