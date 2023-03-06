@@ -22,7 +22,7 @@ dependencies:
 
   # functional programming thingies
   dartz: ^0.8.6
-  
+
   #local cache
   shared_preferences: ^0.5.3+4
 
@@ -33,6 +33,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
 
   flutter_lints: ^2.0.0
 
