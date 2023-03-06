@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import '../../../notificaciones/domain/entities/notificacion.dart';
 import 'creador.dart';
 
 class Usuario extends Creador{
@@ -8,8 +9,8 @@ class Usuario extends Creador{
   String correo;
   String instagram;
   //Map<int, AbstractEvento> = HashMap():
-  Map<int, Usuario> amigos = HashMap();
-  //Map<int, Notificacion> notificaciones;
+  Map<int, Usuario> amigos = {};
+  Map<int, Notificacion> notificaciones = {};
 
   //CONSTRUCTOR
 
