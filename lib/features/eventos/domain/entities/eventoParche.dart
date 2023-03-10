@@ -1,10 +1,10 @@
 import 'dart:collection';
 
 import '../../../comentarios/domain/entities/comentario.dart';
-import '../../../etiquetas/data/models/etiqueta.dart';
-import '../../data/models/creador.dart';
-import '../../data/models/lugar.dart';
-import '../../data/models/usuario.dart';
+import '../../../etiquetas/domain/entities/etiqueta.dart';
+import '../../../usuarios/domain/entities/creador.dart';
+import '../../../lugares/domain/entities/lugar.dart';
+import '../../../usuarios/domain/entities/usuario.dart';
 import 'abstractEvento.dart';
 
 class EventoParche extends abstractEvento {

@@ -1,5 +1,5 @@
-import '../../data/models/creador.dart';
-import '../../data/models/lugar.dart';
+import '../../../usuarios/domain/entities/creador.dart';
+import '../../../lugares/domain/entities/lugar.dart';
 import 'dart:collection';
 
 abstract class abstractEvento {
