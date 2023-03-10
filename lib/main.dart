@@ -4,7 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'firebase_options.dart';
 
+import 'dart:io';
+
 void main() async {
+  HttpOverrides.global = new PostHttpOverrides();
+  //esto es necesario para poder hacer la conexión con firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -72,26 +76,33 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildListItems(BuildContext context, DocumentSnapshot document) {
     return ListTile(
+      /*
+      shape: RoundedRectangleBorder(
+        //<-- SEE HERE
+        side: BorderSide(width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ), */
       title: Container(
-          margin: const EdgeInsets.only(top: 5),
+          margin: const EdgeInsets.only(top: 30, bottom: 0),
           //margin: EdgeInsets.only(top: 20, bottom: 20),
           decoration: BoxDecoration(border: Border.all()),
           child: Text(
             document['titulo'].replaceAll(' ', '-'),
-            style: const TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 20),
           )),
       subtitle: Container(
         //margin: EdgeInsets.only(top: 20, bottom: 20),
         decoration: const BoxDecoration(
           color: Color(0xffddddff),
         ),
-        padding: const EdgeInsets.all(1.0),
+        padding: const EdgeInsets.all(0.5),
         margin: const EdgeInsets.only(bottom: 20),
-        child: Text(document['lugar'].replaceAll(' ', ''),
-            style: const TextStyle(fontSize: 10)),
+        child: Text(document['lugar'], style: const TextStyle(fontSize: 15)),
       ),
+      leading: SizedBox(
+          height: 100, width: 100, child: Image.network(document['link_img'])),
       dense: true,
-      visualDensity: const VisualDensity(vertical: 3.6),
+      visualDensity: const VisualDensity(vertical: 4),
       onTap: () {
         print('Hola jiji tocaste al creador');
       },
@@ -122,7 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }
           return ListView.builder(
-              itemExtent: 100.0,
+              itemExtent: 170.0,
+              shrinkWrap: true,
               itemCount: snapshot.data?.docs.length,
               itemBuilder: (context, index) =>
                   _buildListItems(context, snapshot.data!.docs[index]));
@@ -139,5 +151,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class PostHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
