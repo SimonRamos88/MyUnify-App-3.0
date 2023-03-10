@@ -1,7 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -25,7 +33,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Prueba de eventos'),
     );
   }
 }
@@ -62,6 +70,34 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Widget _buildListItems(BuildContext context, DocumentSnapshot document) {
+    return ListTile(
+      title: Container(
+          margin: const EdgeInsets.only(top: 5),
+          //margin: EdgeInsets.only(top: 20, bottom: 20),
+          decoration: BoxDecoration(border: Border.all()),
+          child: Text(
+            document['titulo'].replaceAll(' ', '-'),
+            style: const TextStyle(fontSize: 15),
+          )),
+      subtitle: Container(
+        //margin: EdgeInsets.only(top: 20, bottom: 20),
+        decoration: const BoxDecoration(
+          color: Color(0xffddddff),
+        ),
+        padding: const EdgeInsets.all(1.0),
+        margin: const EdgeInsets.only(bottom: 20),
+        child: Text(document['lugar'].replaceAll(' ', ''),
+            style: const TextStyle(fontSize: 10)),
+      ),
+      dense: true,
+      visualDensity: const VisualDensity(vertical: 3.6),
+      onTap: () {
+        print('Hola jiji tocaste al creador');
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -76,35 +112,26 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('Evento').snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return const Text(
+              'Cargando...',
+              style: TextStyle(fontSize: 15),
+            );
+          }
+          return ListView.builder(
+              itemExtent: 100.0,
+              itemCount: snapshot.data?.docs.length,
+              itemBuilder: (context, index) =>
+                  _buildListItems(context, snapshot.data!.docs[index]));
+        },
+        /*ListView.builder(
+              itemExtent: 80.0,
+              itemCount: _bandList.length,
+              itemBuilder: (context, index) => _buildListItems(context,_bandList[index]),
+              */
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
