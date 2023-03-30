@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myunify_app/features/eventos/domain/repositories/createEvent.dart';
 import 'package:myunify_app/features/eventos/domain/repositories/getEventId.dart';
 import 'features/eventos/domain/repositories/getEvents.dart';
+import 'features/eventos/presentation/pages/viewEvent.dart';
 import 'firebase_options.dart';
 
 import 'dart:io';
@@ -71,8 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
       print(v['creador']);
     }
     */
-    Map evento = await getEventById("2775");
-    print(evento);
+    //Map evento = await getEventById("2775");
+    //print(evento);
+    String s = await createEvent(
+        {"creador": "yo", "lugar": "cyt", "titulo": "evento por app"});
+    print(s);
   }
 
   Widget _buildListItems(BuildContext context, DocumentSnapshot document) {
@@ -106,6 +111,9 @@ class _MyHomePageState extends State<MyHomePage> {
       visualDensity: const VisualDensity(vertical: 4),
       onTap: () {
         print('la id del documento es: ' + document.id);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ViewEvent(
+                data: document.data() as Map<String, dynamic>, title: '')));
       },
     );
   }
