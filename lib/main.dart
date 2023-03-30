@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:myunify_app/features/eventos/domain/repositories/getEventId.dart';
+import 'features/eventos/domain/repositories/getEvents.dart';
 import 'firebase_options.dart';
 
 import 'dart:io';
@@ -63,15 +64,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  Future _mostrarVitalizate() async {
+    /*
+    List vitalizate = await getEvents() as List;
+    for (var v in vitalizate) {
+      print(v['creador']);
+    }
+    */
+    Map evento = await getEventById("2775");
+    print(evento);
   }
 
   Widget _buildListItems(BuildContext context, DocumentSnapshot document) {
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
       dense: true,
       visualDensity: const VisualDensity(vertical: 4),
       onTap: () {
-        print('Hola jiji tocaste al creador');
+        print('la id del documento es: ' + document.id);
       },
     );
   }
@@ -146,7 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
               */
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          _mostrarVitalizate();
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
