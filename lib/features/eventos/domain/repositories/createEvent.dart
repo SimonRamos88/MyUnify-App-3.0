@@ -17,7 +17,7 @@ Future<String> createEvent(Map<String, dynamic> data) async {
       data.containsKey("link_img")) {
     //subimos los datos del evento
     collectionReferenceEvento.doc(idEvento).set(data);
-    respuesta = 'datos subidos con id ' + idEvento;
+    respuesta = 'datos subidos con id $idEvento';
   } else {
     respuesta = 'datos insuficientes';
   }

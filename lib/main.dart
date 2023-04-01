@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myunify_app/features/eventos/domain/repositories/createEvent.dart';
 import 'package:myunify_app/features/eventos/domain/repositories/getEventId.dart';
 import 'features/eventos/domain/repositories/getEvents.dart';
+import 'features/eventos/presentation/pages/formEvent.dart';
 import 'features/eventos/presentation/pages/viewEvent.dart';
 import 'firebase_options.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -80,7 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
     print(s);
   }
 
-  Widget _buildListItems(BuildContext context, DocumentSnapshot document) {
+  Widget _buildListItems(
+      BuildContext context, DocumentSnapshot<Map<String, dynamic>> document) {
     return ListTile(
       /*
       shape: RoundedRectangleBorder(
@@ -156,7 +159,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _mostrarVitalizate();
+          //_mostrarVitalizate();
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const FormEvent(title: 'Formulario')));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
