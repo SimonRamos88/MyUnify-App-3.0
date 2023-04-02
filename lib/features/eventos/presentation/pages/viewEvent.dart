@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:myunify_app/features/eventos/domain/repositories/deleteEvent.dart';
 
 class ViewEvent extends StatefulWidget {
-  const ViewEvent({Key? key, required this.title, required this.data})
+  const ViewEvent(
+      {Key? key, required this.title, required this.data, required this.id})
       : super(key: key);
 
   final Map<String, dynamic> data;
+  final String id;
 
   final String title;
 
@@ -41,6 +44,15 @@ class _ViewEventState extends State<ViewEvent> {
             Image.network(widget.data['link_img'])
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          //_mostrarVitalizate();
+          deleteEventById(widget.id);
+          Navigator.pop(context);
+        },
+        tooltip: 'Delete',
+        child: const Icon(Icons.delete),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );

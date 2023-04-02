@@ -116,7 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
         print('la id del documento es: ' + document.id);
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ViewEvent(
-                data: document.data() as Map<String, dynamic>, title: '')));
+                id: document.id,
+                data: document.data() as Map<String, dynamic>,
+                title: '')));
       },
     );
   }
@@ -158,10 +160,11 @@ class _MyHomePageState extends State<MyHomePage> {
               */
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           //_mostrarVitalizate();
-          Navigator.of(context).push(MaterialPageRoute(
+          await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => const FormEvent(title: 'Formulario')));
+          setState(() {});
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

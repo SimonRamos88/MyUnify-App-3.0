@@ -156,7 +156,11 @@ class _FormEventState extends State<FormEvent> {
       "link_img": controllerLink.text,
       "lugar": controllerLugar.text,
     };
+    print('datos enviados');
     await createEvent(datos);
+    setState(() {
+      Navigator.pop(context);
+    });
   }
 }
 
